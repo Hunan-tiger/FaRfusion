@@ -1,0 +1,70 @@
+arch:
+    type: LatentMLPMatcher
+    args:
+        # diff config
+        diffusion_steps: 20
+        predict: epsilon
+        loss_type: l1
+        loss_coef: 1
+
+        # 训练时是否重复数据
+        k: 1
+
+        # model config
+        num_hid_channels: 1024
+        num_layers: 10
+        dropout: 0.0
+
+        dims: 1
+        model_channels: 256
+        cond_embed_dim: 256
+        in_channels: 750
+        out_channels: 750
+        use_scale_shift_norm: True
+        
+        #ldm config
+        emb_length: 128
+        window_size: 750
+        seq_len: 750
+        online: false
+        autoencoder_path: ./results/TransformerVAE/checkpoint_best.pth
+        freeze_emotion_encoder: true
+
+loss:
+    type: BeLFusionLoss
+    args: 
+        losses_multipliers: 10
+
+optimizer:
+    lr: 0.00005
+    weight_decay: 5e-4
+
+trainer:
+    epochs: 50
+    resume: ./results/LatentMLPMatcher/checkpoint_best.pth
+    out_dir: ./results
+    val_period: 10
+
+dataset:
+    dataset_path: /public_bme/data/v-lijm/REACT_2024
+    split: train
+
+    img_size: 256
+    crop_size: 224
+    clip_length: 750
+
+    batch_size: 16
+    shuffle: True
+    num_workers: 8
+
+validation_dataset:
+    dataset_path: /public_bme/data/v-lijm/REACT_2024
+    split: val
+
+    img_size: 256
+    crop_size: 224
+    clip_length: 750
+
+    batch_size: 8
+    shuffle: False
+    num_workers: 8

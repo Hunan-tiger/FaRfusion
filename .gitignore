@@ -1,0 +1,8 @@
+/__pycache__
+*.pyc
+/pytorch3d
+*.pth
+*.npy
+/results
+*.out
+*.sh
